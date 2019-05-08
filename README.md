@@ -14,6 +14,5 @@ And then go to the browser at `http://127.0.0.1:8080`
 - [x] server rendering .md files
 - [x] live reload when .md file changes
 - [x] directory files list on `/` endpoint
-- [ ] on error return error page, instead of panic server
 - [ ] graphviz
 - [ ] colour `<code>` with syntax highlighting

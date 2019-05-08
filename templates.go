@@ -74,3 +74,24 @@ h2:after{
 </body>
 </html>
 `
+
+const errTemplate = `
+<!DOCTYPE html>
+<html>
+<title>{{.Title}}</title>
+<style>
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background:#000000;
+    color:#cccccc;
+}
+</style>
+<body>
+
+<h3>File doesn't exist</h3>
+<br><br>
+<a href="/">Back to dir menu</a>
+
+</body>
+</html>
+`

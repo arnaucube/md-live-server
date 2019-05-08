@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"html/template"
 	"log"
 	"net/http"
@@ -59,6 +60,11 @@ func getPage(w http.ResponseWriter, r *http.Request) {
 	path := vars["path"]
 	path = strings.Replace(path, "%", "/", -1)
 	log.Println(path)
+
+	if len(strings.Split(path, ".")) < 2 {
+		fmt.Fprintf(w, errTemplate)
+		return
+	}
 
 	if strings.Split(path, ".")[1] != "md" {
 		http.ServeFile(w, r, path)
