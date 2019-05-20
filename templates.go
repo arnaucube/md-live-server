@@ -38,6 +38,9 @@ pre, code{
     background: #333333;
     border-radius: 3px;
 }
+pre{
+    padding: 5px;
+}
 pre>code {
     color: #c0fffa;
 }
@@ -50,6 +53,15 @@ h2:after{
     content:' ';
     display:block;
     border:0.7px solid #cccccc;
+}
+th{
+    padding: 3px;
+    border: 1px solid #234b4f;
+    background-color: #143134;
+}
+td{
+    padding: 3px;
+    border: 1px solid #234b4f;
 }
 </style>
 <body>
