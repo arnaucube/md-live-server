@@ -68,6 +68,7 @@ func getPage(w http.ResponseWriter, r *http.Request) {
 
 	if strings.Split(path, ".")[1] != "md" {
 		http.ServeFile(w, r, path)
+		return
 	}
 
 	content, err := fileToHTML(path)

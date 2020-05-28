@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 
 	"github.com/fatih/color"
-	blackfriday "gopkg.in/russross/blackfriday.v2"
+	blackfriday "github.com/russross/blackfriday/v2"
 )
 
 func check(err error) {
