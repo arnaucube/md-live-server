@@ -20,5 +20,6 @@ set backupcopy=yes
 - [x] server rendering .md files
 - [x] live reload when .md file changes
 - [x] directory files list on `/` endpoint
+- [x] LaTex support
 - [ ] graphviz
 - [ ] colour `<code>` with syntax highlighting

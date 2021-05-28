@@ -30,4 +30,10 @@ func main() {
 | col 2 is      | centered      |   $12 |
 | zebra stripes | are neat      |    $1 |
 
+## LaTeX example
+Through [KaTeX](https://katex.org):
+
+$y^2 = x^3 + 7$
+
+$\left(\frac{1}{\sqrt{x}}\right)$
 
