@@ -6,7 +6,8 @@ import (
 	"path/filepath"
 
 	"github.com/fatih/color"
-	blackfriday "github.com/russross/blackfriday/v2"
+	"github.com/gomarkdown/markdown"
+	"github.com/gomarkdown/markdown/parser"
 )
 
 func check(err error) {
@@ -34,7 +35,14 @@ func readFile(path string) string {
 }
 
 func fileToHTML(path string) (string, error) {
+	mdExtensions := parser.NoIntraEmphasis | parser.Tables | parser.FencedCode |
+		parser.Autolink | parser.Strikethrough | parser.SpaceHeadings | parser.HeadingIDs |
+		parser.BackslashLineBreak | parser.DefinitionLists | parser.MathJax
+
 	mdcontent := readFile(path)
-	htmlcontent := string(blackfriday.Run([]byte(mdcontent)))
-	return htmlcontent, nil
+	mdParser := parser.NewWithExtensions(mdExtensions)
+	htmlcontent := markdown.ToHTML([]byte(mdcontent), mdParser, nil)
+
+	// htmlcontent := string(blackfriday.Run([]byte(mdcontent)))
+	return string(htmlcontent), nil
 }
