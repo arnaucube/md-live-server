@@ -21,5 +21,6 @@ set backupcopy=yes
 - [x] live reload when .md file changes
 - [x] directory files list on `/` endpoint
 - [x] LaTex support
+- [x] mermaidjs
 - [ ] graphviz
 - [ ] colour `<code>` with syntax highlighting

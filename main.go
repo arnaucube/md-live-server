@@ -13,6 +13,8 @@ import (
 	"github.com/gorilla/websocket"
 )
 
+const version = "v0_20230626"
+
 var (
 	upgrader = websocket.Upgrader{
 		ReadBufferSize:  1024,
@@ -27,6 +29,8 @@ type PageModel struct {
 }
 
 func main() {
+	fmt.Println("md-live-server version:", version)
+
 	router := mux.NewRouter()
 	router.HandleFunc("/", getDir).Methods("GET")
 	router.HandleFunc("/{path}", getPage).Methods("GET")

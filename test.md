@@ -37,3 +37,12 @@ $y^2 = x^3 + 7$
 
 $\left(\frac{1}{\sqrt{x}}\right)$
 
+
+## Mermaid example
+
+<pre class="mermaid">
+graph LR
+    A --- B
+    B-->C[fa:fa-ban forbidden]
+    B-->D(fa:fa-spinner);
+</pre>

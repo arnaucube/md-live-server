@@ -152,6 +152,8 @@ td{
 </div>
 
 
+<!-- TODO: make all the imports locally, to allow working offline -->
+
 <!-- LaTex renderization -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css" integrity="sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc" crossorigin="anonymous">
 
@@ -160,6 +162,11 @@ td{
 
 <!-- To automatically render math in text elements, include the auto-render extension: -->
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/contrib/auto-render.min.js" integrity="sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl" crossorigin="anonymous"></script>
+
+<!-- Mermaidjs -->
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+</script>
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
@@ -180,6 +187,7 @@ td{
 
 <script>
 (function() {
+
 	var conn = new WebSocket("ws://127.0.0.1:8080/ws/{{.Title}}");
 	conn.onclose = function(evt) {
 	    console.log('Connection closed');
@@ -203,7 +211,6 @@ td{
 		  // • rendering keys, e.g.:
 		  throwOnError : false
 		});
-
 	}
 })();
 
