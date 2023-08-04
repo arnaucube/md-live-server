@@ -1,6 +1,6 @@
 module md-live-server
 
-go 1.14
+go 1.19
 
 require (
 	github.com/fatih/color v1.9.0
@@ -9,3 +9,5 @@ require (
 	github.com/gorilla/mux v1.7.4
 	github.com/gorilla/websocket v1.4.2
 )
+
+require golang.org/x/sys v0.10.0 // indirect
