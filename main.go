@@ -8,12 +8,13 @@ import (
 	"strings"
 	"time"
 
+	"github.com/fatih/color"
 	"github.com/fsnotify/fsnotify"
 	"github.com/gorilla/mux"
 	"github.com/gorilla/websocket"
 )
 
-const version = "v0_20230804"
+const version = "v0_20240128"
 
 var (
 	upgrader = websocket.Upgrader{
@@ -30,6 +31,10 @@ type PageModel struct {
 
 func main() {
 	fmt.Println("md-live-server version:", version)
+
+	// fill the CSS into the HTML templates
+	dirTemplate = fillCSSintoTemplate(dirTemplate)
+	htmlTemplate = fillCSSintoTemplate(htmlTemplate)
 
 	router := mux.NewRouter()
 	router.HandleFunc("/", getDir).Methods("GET")
@@ -76,7 +81,11 @@ func getPage(w http.ResponseWriter, r *http.Request) {
 	}
 
 	content, err := fileToHTML(path)
-	check(err)
+	if err != nil {
+		color.Red(err.Error())
+		fmt.Fprintf(w, errTemplate)
+		return
+	}
 
 	var page PageModel
 	page.Title = path

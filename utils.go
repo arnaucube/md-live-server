@@ -25,13 +25,13 @@ func readDir(dirpath string) []string {
 	return elems
 }
 
-func readFile(path string) string {
+func readFile(path string) (string, error) {
 	dat, err := ioutil.ReadFile(path)
 	if err != nil {
 		color.Red(path)
+		return "", err
 	}
-	check(err)
-	return string(dat)
+	return string(dat), nil
 }
 
 func fileToHTML(path string) (string, error) {
@@ -39,7 +39,10 @@ func fileToHTML(path string) (string, error) {
 		parser.Autolink | parser.Strikethrough | parser.SpaceHeadings | parser.HeadingIDs |
 		parser.BackslashLineBreak | parser.DefinitionLists | parser.MathJax
 
-	mdcontent := readFile(path)
+	mdcontent, err := readFile(path)
+	if err != nil {
+		return "", err
+	}
 	mdParser := parser.NewWithExtensions(mdExtensions)
 	htmlcontent := markdown.ToHTML([]byte(mdcontent), mdParser, nil)
 

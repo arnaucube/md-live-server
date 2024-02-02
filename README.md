@@ -2,6 +2,7 @@
 Server that renders markdown files and live updates the page each time that the file is updated.
 
 ![screenshot00](https://raw.githubusercontent.com/arnaucube/md-live-server/master/screenshot00.png 'screenshot00')
+*(Current visual style is more similar to GitHub's style)*
 
 ## Usage
 Put the binary file `md-live-server` in your `$PATH`, and then go to the directory where are the markdown files that want to live render, and just use:
@@ -23,4 +24,3 @@ set backupcopy=yes
 - [x] LaTex support
 - [x] mermaidjs
 - [ ] graphviz
-- [ ] colour `<code>` with syntax highlighting

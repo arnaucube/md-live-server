@@ -1,25 +1,41 @@
 package main
 
+import (
+	"strings"
+)
+
 // html templates are here instead of an .html file to avoid depending on external files
 // in this way, everything is inside the binary
 
-const dirTemplate = `
+func fillCSSintoTemplate(template string) string {
+	if strings.Contains(template, "[CSS]") {
+		template = strings.Replace(template, "[CSS]", cssTemplate, -1)
+	}
+	return template
+}
+
+var dirTemplate = `
 <!DOCTYPE html>
 <html>
 <title>{{.Title}}</title>
+[CSS]
 <style>
 body {
-    font-family: Arial, Helvetica, sans-serif;
+	box-sizing: border-box;
+	min-width: 200px;
+	max-width: 980px;
+	margin: 0 auto;
+	padding: 45px;
 }
-.dark {
-    background:#1d2021;
-    color:#cccccc;
-}
-.dark a, a:hover, a:visited {
-	color: #458588;
+
+@media (prefers-color-scheme: dark) {
+	body {
+		background-color: #0d1117;
+	}
 }
 </style>
-<body class="dark">
+<body class="dark-theme">
+<article class="markdown-body">
     <input onclick="switchThemeClick()" type="checkbox" id="themeSwitcher" style="float:right;">
 
 {{.Content}}
@@ -29,13 +45,15 @@ body {
   if (theme === "light") {
     document.getElementById("themeSwitcher").checked = false;
     document.body.className = theme;
+  } else {
+    document.getElementById("themeSwitcher").checked = true;
   }
 
   function switchThemeClick() {
     theme = localStorage.getItem("theme");
     if (theme === "light") {
       document.getElementById("themeSwitcher").checked = true;
-      theme = "dark";
+      theme = "dark-theme";
       localStorage.setItem("theme", theme);
     } else {
       document.getElementById("themeSwitcher").checked = false;
@@ -46,105 +64,34 @@ body {
   }
 </script>
 
+</article>
 </body>
 </html>
 `
 
-const htmlTemplate = `
+var htmlTemplate = `
 <!DOCTYPE html>
 <html>
 <title>{{.Title}}</title>
+[CSS]
 <style>
 body {
-    font-family: Arial, Helvetica, sans-serif;
-}
-.dark {
-    background:#1d2021;
-    color:#cccccc;
-}
-a, a:hover, a:visited {
-	color: #458588;
-}
-pre, code{
-    padding-left: 3px;
-    padding-right: 3px;
-    border-radius: 3px;
-    background: #cccccc;
-}
-.dark pre, .dark code{
-    padding-left: 3px;
-    padding-right: 3px;
-    border-radius: 3px;
-    background: #333333;
-}
-pre{
-    padding: 5px;
-}
-pre>code {
-    color: #000000;
-}
-.dark pre>code {
-    color: #c0fffa;
-}
-h1:after{
-    content:' ';
-    display:block;
-    border:1px solid #cccccc;
-}
-h2:after{
-    content:' ';
-    display:block;
-    border:0.7px solid #cccccc;
-}
-.dark th{
-    padding: 3px;
-    border: 1px solid #234b4f;
-    background-color: #143134;
-}
-td{
-    padding: 3px;
-    border: 1px solid #234b4f;
-}
-.container {
-  width: 100%;
-  padding-right: 1rem;
-  padding-left: 1rem;
-  margin-right: auto;
-  margin-left: auto;
+	box-sizing: border-box;
+	min-width: 200px;
+	max-width: 980px;
+	margin: 0 auto;
+	padding: 45px;
 }
 
-@media (min-width: 576px) {
-  .container {
-    max-width: 540px;
-  }
-}
-
-@media (min-width: 768px) {
-  .container {
-    max-width: 720px;
-  }
-}
-
-@media (min-width: 992px) {
-  .container {
-    max-width: 800px;
-  }
-}
-
-@media (min-width: 1200px) {
-  .container {
-    max-width: 800px;
-  }
-}
-
-@media (min-width: 1400px) {
-  .container {
-    max-width: 800px;
-  }
+@media (prefers-color-scheme: dark) {
+	body {
+		background-color: #0d1117;
+	}
 }
 </style>
 
-<body class="dark">
+<body class="dark-theme">
+<article class="markdown-body">
 <input onclick="switchThemeClick()" type="checkbox" id="themeSwitcher" style="float:right;">
 <a href="/" title="go to root">root</a>
 <div id="content" class="container">
@@ -219,13 +166,15 @@ td{
   if (theme === "light") {
     document.getElementById("themeSwitcher").checked = false;
     document.body.className = theme;
+  } else {
+    document.getElementById("themeSwitcher").checked = true;
   }
 
   function switchThemeClick() {
     theme = localStorage.getItem("theme");
     if (theme === "light") {
       document.getElementById("themeSwitcher").checked = true;
-      theme = "dark";
+      theme = "dark-theme";
       localStorage.setItem("theme", theme);
     } else {
       document.getElementById("themeSwitcher").checked = false;
@@ -236,6 +185,7 @@ td{
   }
 
 </script>
+</article>
 </body>
 </html>
 `
