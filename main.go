@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"html/template"
 	"log"
@@ -30,6 +31,9 @@ type PageModel struct {
 }
 
 func main() {
+	port := flag.Int("port", 8080, "port to listen on")
+	flag.Parse()
+
 	fmt.Println("md-live-server version:", version)
 
 	// fill the CSS into the HTML templates
@@ -41,9 +45,11 @@ func main() {
 	router.HandleFunc("/{path}", getPage).Methods("GET")
 	router.HandleFunc("/ws/{path}", serveWs)
 
+	addr := fmt.Sprintf(":%d", *port)
+
 	log.Println("md-live-server web server running")
-	log.Print("port: 8080")
-	log.Fatal(http.ListenAndServe(":8080", router))
+	log.Printf("port: %d", *port)
+	log.Fatal(http.ListenAndServe(addr, router))
 }
 
 func getDir(w http.ResponseWriter, r *http.Request) {
