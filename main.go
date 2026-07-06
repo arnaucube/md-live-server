@@ -15,7 +15,7 @@ import (
 	"github.com/gorilla/websocket"
 )
 
-const version = "v0_20240128"
+const version = "v0_20260706"
 
 var (
 	upgrader = websocket.Upgrader{

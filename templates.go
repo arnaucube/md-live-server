@@ -113,6 +113,17 @@ body {
 <!-- Mermaidjs -->
 <script type="module">
   import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+  mermaid.initialize({ startOnLoad: false });
+
+  window.renderMermaid = async function() {
+    document.querySelectorAll('pre > code.language-mermaid').forEach(function(codeBlock) {
+      const pre = codeBlock.parentElement;
+      pre.className = 'mermaid';
+      pre.textContent = codeBlock.textContent;
+    });
+
+    await mermaid.run({ querySelector: '.mermaid' });
+  };
 </script>
 
 <script>
@@ -129,6 +140,10 @@ body {
           // • rendering keys, e.g.:
           throwOnError : false
         });
+
+        if (window.renderMermaid) {
+          window.renderMermaid().catch(console.error);
+        }
     });
 </script>
 
@@ -158,6 +173,10 @@ body {
 		  // • rendering keys, e.g.:
 		  throwOnError : false
 		});
+
+		if (window.renderMermaid) {
+		  window.renderMermaid().catch(console.error);
+		}
 	}
 })();
 
