@@ -77,20 +77,112 @@ var htmlTemplate = `
 <style>
 body {
 	box-sizing: border-box;
+	display: flex;
+	align-items: flex-start;
 	min-width: 200px;
+	margin: 0;
+	padding: 0;
+}
+
+.page-layout {
+	box-sizing: border-box;
+	flex: 1 1 auto;
 	max-width: 980px;
-	margin: 0 auto;
+	margin-left: 40px;
+	margin-right: auto;
 	padding: 45px;
 }
 
-@media (prefers-color-scheme: dark) {
-	body {
-		background-color: #0d1117;
+.toc {
+	position: sticky;
+	top: 0;
+	flex: 0 0 280px;
+	box-sizing: border-box;
+	width: 280px;
+	height: 100vh;
+	max-height: 100vh;
+	padding: 45px 14px;
+	overflow-y: auto;
+	border-right: 1px solid var(--color-border-muted);
+}
+
+.toc-title {
+	margin: 0 0 12px;
+	color: var(--color-fg-muted);
+	font-size: 12px;
+	font-weight: 600;
+	text-transform: uppercase;
+}
+
+.toc-list {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.toc-list li {
+	margin: 2px 0;
+}
+
+.toc-list a {
+	display: block;
+	overflow: hidden;
+	padding: 4px 0;
+	color: var(--color-fg-muted);
+	font-size: 13px;
+	line-height: 1.35;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.toc-list a:hover {
+	color: var(--color-accent-fg);
+	text-decoration: none;
+}
+
+.toc-level-2 { padding-left: 2px; }
+.toc-level-3 { padding-left: 14px; }
+.toc-level-4 { padding-left: 26px; }
+.toc-level-5 { padding-left: 38px; }
+.toc-level-6 { padding-left: 40px; }
+
+.toc-empty {
+	display: none;
+}
+
+@media (max-width: 899px) {
+	.toc {
+		flex-basis: 240px;
+		width: 240px;
+		padding: 24px 14px;
+	}
+
+	.page-layout {
+		margin-left: 20px;
 	}
 }
+
+@media (max-width: 767px) {
+	.page-layout {
+		margin-left: 0;
+		padding: 24px;
+	}
+
+	.toc {
+		flex-basis: 200px;
+		width: 200px;
+		padding: 24px 12px;
+	}
+}
+
 </style>
 
 <body class="dark-theme">
+<nav id="toc" class="toc markdown-body" aria-label="Table of contents">
+	<div class="toc-title">Contents</div>
+	<ul id="tocList" class="toc-list"></ul>
+</nav>
+<main class="page-layout">
 <article class="markdown-body">
 <input onclick="switchThemeClick()" type="checkbox" id="themeSwitcher" style="float:right;">
 <a href="/" title="go to root">root</a>
@@ -128,6 +220,8 @@ body {
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
+        buildTableOfContents();
+
         renderMathInElement(document.body, {
           // customised options
           // • auto-render specific keys, e.g.:
@@ -160,6 +254,7 @@ body {
 	    // location.reload();
 	    // console.log("evt", evt);
 	    document.getElementById("content").innerHTML = evt.data;
+		buildTableOfContents();
 
 		renderMathInElement(document.body, {
 		  // customised options
@@ -179,6 +274,52 @@ body {
 		}
 	}
 })();
+
+  function slugifyHeading(text) {
+    return text.trim().toLowerCase()
+      .replace(/[^\w\s-]/g, "")
+      .replace(/\s+/g, "-")
+      .replace(/-+/g, "-") || "heading";
+  }
+
+  function buildTableOfContents() {
+    const content = document.getElementById("content");
+    const toc = document.getElementById("toc");
+    const tocList = document.getElementById("tocList");
+    if (!content || !toc || !tocList) {
+      return;
+    }
+
+    const headings = content.querySelectorAll("h1, h2, h3, h4, h5, h6");
+    const usedIds = new Set();
+    tocList.innerHTML = "";
+
+    headings.forEach(function(heading) {
+      const level = parseInt(heading.tagName.substring(1), 10);
+      let id = heading.id || slugifyHeading(heading.textContent);
+      const baseId = id;
+      let suffix = 2;
+      while (usedIds.has(id)) {
+        id = baseId + "-" + suffix;
+        suffix++;
+      }
+      heading.id = id;
+      usedIds.add(id);
+
+      const item = document.createElement("li");
+      item.className = "toc-level-" + level;
+
+      const link = document.createElement("a");
+      link.href = "#" + id;
+      link.textContent = heading.textContent;
+      link.title = heading.textContent;
+
+      item.appendChild(link);
+      tocList.appendChild(item);
+    });
+
+    toc.classList.toggle("toc-empty", headings.length === 0);
+  }
 
 
   let theme = localStorage.getItem("theme");
@@ -205,6 +346,7 @@ body {
 
 </script>
 </article>
+</main>
 </body>
 </html>
 `
