@@ -7,7 +7,11 @@ require (
 	github.com/fsnotify/fsnotify v1.4.9
 	github.com/gomarkdown/markdown v0.0.0-20220627144906-e9a81102ebeb
 	github.com/gorilla/mux v1.7.4
-	github.com/gorilla/websocket v1.4.2
+	github.com/gorilla/websocket v1.5.3
 )
 
-require golang.org/x/sys v0.10.0 // indirect
+require (
+	github.com/mattn/go-colorable v0.1.4 // indirect
+	github.com/mattn/go-isatty v0.0.11 // indirect
+	golang.org/x/sys v0.10.0 // indirect
+)
